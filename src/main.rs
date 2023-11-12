@@ -8,7 +8,8 @@ use std::env;
 fn decode_bencoded_value(encoded_value: &str) -> serde_json::Value {
     // If the number string before the separator is not a real number this panic will handle it.
     if !encoded_value.chars().next().unwrap().is_digit(10) {
-        panic!("Unhandled encoded value: {}", encoded_value)
+        eprintln!("Unhandled encoded value: {}", encoded_value);
+        std::process::exit(1);
     }
 
     // Retrieve the index for the separator ":"
@@ -38,6 +39,7 @@ fn main() {
         let decoded_value = decode_bencoded_value(encoded_value);
         println!("{}", decoded_value.to_string());
     } else {
-        println!("unknown command: {}", args[1])
+        eprintln!("unknown command: {}", args[1]);
+        std::process::exit(1);
     }
 }
